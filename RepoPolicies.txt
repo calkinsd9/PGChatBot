@@ -5,7 +5,7 @@ New Feature:
 2. Checkout a new feature branch:
 	Without git-flow extensions:
 		git checkout develop
-		git checkout -b feature_branch
+		git checkout -b feature/feature_branch
 
 	When using the git-flow extension:
 		git flow feature start feature_branch
@@ -13,8 +13,8 @@ New Feature:
 3. When you're finished with your feature, merge it back into the develop branch (and resolve conflicts). (see code review option below)
 	Without the git-flow extensions:
 		git checkout develop
-		git merge feature_branch
-		(optional) git branch -d feature_branch
+		git merge feature/feature_branch
+		(optional) git branch -d feature/feature_branch
 
 	Using the git-flow extensions:
 		git flow feature finish feature_branch
@@ -74,13 +74,13 @@ Writing a hotfix for master:
 Notes:
 * We generally don't want to push all of our own local feature branches, but you can if you want/need to. If   you want others to be able to see your feature branch:
 	Without git-flow:
-		git checkout feature_branch
-	  	git push origin feature_branch
+		git checkout feature/feature_branch
+	  	git push origin feature/feature_branch
 
 	With git-flow:
 		git flow feature publish feature_branch
   Once your feature is merged into develop, you may want to prune the feature branch in the online repo:
-		git push origin :feature_branch
+		git push origin :feature/feature_branch
 
 * The point of a release branch is so that development of new features can continue while a particular sprint release is polished. If a release branch has not yet been created for the current sprint and you are working on a feature within a feature branch that isn't in that sprint, wait until a release branch has been created before finishing your feature branch and merging it back into development.
 
