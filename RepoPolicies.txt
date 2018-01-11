@@ -1,0 +1,87 @@
+REPO POLICIES
+
+New Feature:
+1. Move relevant backlog item(s) to "In Progress" board.
+2. Checkout a new feature branch:
+	Without git-flow extensions:
+		git checkout develop
+		git checkout -b feature/feature_branch
+
+	When using the git-flow extension:
+		git flow feature start feature_branch
+
+3. When you're finished with your feature, merge it back into the develop branch (and resolve conflicts). (see code review option below)
+	Without the git-flow extensions:
+		git checkout develop
+		git merge feature/feature_branch
+		(optional) git branch -d feature/feature_branch
+
+	Using the git-flow extensions:
+		git flow feature finish feature_branch
+
+4. Push your local code to the shared repo:
+	git push origin develop
+	git push origin --tags
+
+5. If you'd like to request a code review for your feature (if you're concerned about a teammate's code that you changed), you can create a pull request via GitHub for your feature branch (base: development, compare: your_branch) and merge once the team member has approved.
+
+
+Prepping a release:
+1. (team leader will) Create a new release branch. The naming convention is release/0.sprint.version (we're reserving the "0" in case we need it for something, but it might remain 0 for the entire project):
+	Without the git-flow extensions:
+		git checkout develop
+		git checkout -b release/0.x.x
+
+	When using the git-flow extensions:
+		git flow release start 0.x.x
+
+2. (team leader will) initiate a pull request (release/0.x.x into master) via GitHub. This pull request is automatically updated whenever a new commit is pushed to the release branch.
+
+3. If changes need to be made, 
+	i. Make sure your current checked out branch is the current release branch
+		git checkout release/0.x.x
+	ii. Check out a new "release hotfix" branch
+		git checkout -b release/0.x.x/hotfix_name
+	iii. When finished, merge your hotfix branch into the current release branch
+		git checkout release/0.x.x
+		git merge release/0.x.x/hotfix_name
+	iv. Write a comment in the pull request or otherwise let teammates know that your hotfix has been submitted. The pull request will update with your commits automatically.
+
+4. Once all team members have tested/signed off, the pull request can be completed. (Team leader will) merge the release branch into both master and development.
+
+
+Writing a hotfix for master:
+1. Create a hotfix branch off of master:
+	Without the git-flow extensions:
+		git checkout master
+		git checkout -b hotfix_branch
+
+	When using the git-flow extensions: 
+		git flow hotfix start hotfix_branch
+
+2. When finished, merge the hotfix back into both master and development:
+	Without git-flow extensions:
+		git checkout master
+		git merge hotfix_branch
+		git checkout develop
+		git merge hotfix_branch
+		git branch -D hotfix_branch
+
+	With git-flow extensions:
+		git flow hotfix finish hotfix_branch
+
+
+Notes:
+* We generally don't want to push all of our own local feature branches, but you can if you want/need to. If   you want others to be able to see your feature branch:
+	Without git-flow:
+		git checkout feature/feature_branch
+	  	git push origin feature/feature_branch
+
+	With git-flow:
+		git flow feature publish feature_branch
+  Once your feature is merged into develop, you may want to prune the feature branch in the online repo:
+		git push origin :feature/feature_branch
+
+* The point of a release branch is so that development of new features can continue while a particular sprint release is polished. If a release branch has not yet been created for the current sprint and you are working on a feature within a feature branch that isn't in that sprint, wait until a release branch has been created before finishing your feature branch and merging it back into development.
+
+* Don't checkout someone else's feature branch and commit changes unless they've specifically asked you to.
